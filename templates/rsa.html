@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>RSA Demo</title>
+</head>
+<body>
+    <h1>RSA Demo</h1>
+    <form method="POST" action="/asymmetric/rsa">
+        <label for="rsa_plaintext">明文：</label>
+        <input type="text" id="rsa_plaintext" name="rsa_plaintext" required>
+        <br>
+        <label for="rsa_password">口令：</label>
+        <input type="password" id="rsa_password" name="rsa_password" required>
+        <br>
+        <button type="submit">加密</button>
+    </form>
+
+    {% if rsa_encrypted_text %}
+        <h2>加密结果：</h2>
+        <p>{{ rsa_encrypted_text }}</p>
+    <form method="POST" action="/asymmetric/rsa/decrypt">
+            <input type="hidden" name="rsa_encrypted_text" value="{{ rsa_encrypted_text }}">
+
+            <button type="submit">解密</button>
+        </form>
+    {% endif %}
+
+    {% if rsa_decrypted_text %}
+        <h2>解密结果：</h2>
+        <p>{{ rsa_decrypted_text }}</p>
+    {% endif %}
+</body>
+</html>

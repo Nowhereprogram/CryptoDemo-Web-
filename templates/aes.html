@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AES Demo</title>
+</head>
+<body>
+    <h1>AES Demo</h1>
+    <form method="POST" action="/symmetric/aes">
+        <label for="plaintext">明文：</label>
+        <input type="text" id="plaintext" name="plaintext" required>
+        <br>
+        <label for="password">口令：</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <label for="mode">加密模式：</label>
+        <select id="mode" name="mode">
+            <option value="cbc">CBC</option>
+            <option value="ofb">OFB</option>
+        </select>
+        <br>
+        <button type="submit">加密</button>
+    </form>
+
+
+    {% if key %}
+        <h2>派生密钥：</h2>
+        <p>{{ key }}</p>
+    {% endif %}
+
+    {% if encrypted_text %}
+        <h2>加密结果：</h2>
+        <p>{{ encrypted_text }}</p>
+
+     <form method="POST" action="/symmetric/aes/decrypt">
+            <input type="hidden" name="encoded_salt" value="{{ encoded_salt }}">
+            <input type="hidden" name="plaintext" value="{{ plaintext }}">
+            <input type="hidden" name="key" value="{{ key }}">
+            <input type="hidden" name="encrypted_text" value="{{ encrypted_text }}">
+            <input type="hidden" name="password" value="{{ password }}">
+            <input type="hidden" name="mode" value="{{ mode }}">
+            <button type="submit">解密</button>
+        </form>
+    {% endif %}
+
+
+    {% if decrypted_text %}
+        <h2>解密结果：</h2>
+        <p>{{ decrypted_text }}</p>
+    {% endif %}
+</body>
+</html>

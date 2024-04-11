@@ -1,0 +1,27 @@
+<!-- file.html -->
+
+{% extends 'index.html' %}
+
+{% block content %}
+    <h2>文件加密</h2>
+    <form method="POST" action="/file_crypto" enctype="multipart/form-data">
+        <label for="file">选择文件：</label>
+        <input type="file" id="file" name="file" required>
+        <br>
+        <label for="password">口令：</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">加密</button>
+    </form>
+
+    {% if encrypted_file_path %}
+        <h3>加密结果：</h3>
+        <p>加密后文件路径：{{ encrypted_file_path }}</p>
+        <a href="{{ url_for('download_file', filename=encrypted_file_path.split('/')[-1]) }}" download>下载加密文件</a>
+    {% endif %}
+
+    {% if error_message %}
+        <h3>错误：</h3>
+        <p>{{ error_message }}</p>
+    {% endif %}
+{% endblock %}
